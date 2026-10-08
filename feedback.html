@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Feedback | HealthCare+</title>
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        🏥 HealthCare+
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="doctors.html">
+            Doctors
+        </a>
+
+        <a href="book.html">
+            Book Appointment
+        </a>
+
+        <a href="appointments.html">
+            My Appointments
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="#" onclick="logout()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="form-container">
+
+    <h2>Patient Feedback</h2>
+
+    <p style="text-align:center;">
+        Your feedback helps us improve our healthcare services.
+    </p>
+
+
+    <form id="feedbackForm">
+
+        <label>Rating</label>
+
+        <select id="rating" required>
+
+            <option value="">
+                Select Rating
+            </option>
+
+            <option value="5">
+                ⭐⭐⭐⭐⭐ Excellent
+            </option>
+
+            <option value="4">
+                ⭐⭐⭐⭐ Very Good
+            </option>
+
+            <option value="3">
+                ⭐⭐⭐ Good
+            </option>
+
+            <option value="2">
+                ⭐⭐ Average
+            </option>
+
+            <option value="1">
+                ⭐ Poor
+            </option>
+
+        </select>
+
+
+        <label>Feedback</label>
+
+        <textarea
+            id="feedback"
+            rows="5"
+            placeholder="Write your feedback here..."
+            required
+        ></textarea>
+
+
+        <button type="submit">
+            Submit Feedback
+        </button>
+
+    </form>
+
+</div>
+
+
+<script src="../js/user.js"></script>
+
+<script>
+
+let feedbackForm =
+    document.getElementById("feedbackForm");
+
+
+feedbackForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        let rating =
+            document.getElementById("rating").value;
+
+
+        let feedback =
+            document.getElementById("feedback").value.trim();
+
+
+        let currentUser =
+            JSON.parse(
+                localStorage.getItem(
+                    "loggedInUser"
+                )
+            );
+
+
+        let feedbacks =
+            JSON.parse(
+                localStorage.getItem(
+                    "feedbacks"
+                )
+            ) || [];
+
+
+        let newFeedback = {
+
+            id: Date.now(),
+
+            name: currentUser.name,
+
+            email: currentUser.email,
+
+            rating: rating,
+
+            feedback: feedback,
+
+            date: new Date().toLocaleDateString()
+
+        };
+
+
+        feedbacks.push(newFeedback);
+
+
+        localStorage.setItem(
+            "feedbacks",
+            JSON.stringify(feedbacks)
+        );
+
+
+        alert(
+            "Thank you! Your feedback has been submitted."
+        );
+
+
+        feedbackForm.reset();
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>
